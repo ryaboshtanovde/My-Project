@@ -30,9 +30,7 @@ public class CubeSpawner : MonoBehaviour
 
                 cubes[i] = cube;
             }
-
             _exploding.ScatterAround(cubes, hittedObject);
-
         }
         Destroy(hittedObject);
     }
