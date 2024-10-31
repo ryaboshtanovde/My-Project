@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Exploding : MonoBehaviour
+public class CubeScatter: MonoBehaviour
 {
-    [SerializeField] private float explodingForce = 10;
+    [SerializeField] private float _explodingForce = 10;
 
     public void ScatterAround(GameObject[] objects, GameObject epicenter)
     {
@@ -10,11 +10,11 @@ public class Exploding : MonoBehaviour
         {
             if (scatteringObject.transform.localPosition == epicenter.transform.localPosition)
             {
-                scatteringObject.GetComponent<Rigidbody>().AddForce(GetRandomDirectionVector() * explodingForce);
+                scatteringObject.GetComponent<Rigidbody>().AddForce(GetRandomDirectionVector() * _explodingForce);
             }
             else
             {
-                scatteringObject.GetComponent<Rigidbody>().AddForce(Vector3.Cross(epicenter.transform.localPosition, scatteringObject.transform.localPosition).normalized * explodingForce);
+                scatteringObject.GetComponent<Rigidbody>().AddForce(Vector3.Cross(epicenter.transform.localPosition, scatteringObject.transform.localPosition).normalized * _explodingForce);
             }
         }
     }

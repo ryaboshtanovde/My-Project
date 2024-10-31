@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+
+[RequireComponent(typeof(CubeScatter))]
 
 public class CubeSpawner : MonoBehaviour
 {
@@ -9,9 +8,16 @@ public class CubeSpawner : MonoBehaviour
     private int _maxCubesCount = 6;
     private float _minChanceBoarder = 0f;
     private float _maxChanceBoarder = 1f;
-    private Exploding _exploding = new Exploding();
+    private float _divisionPower = 2;
 
-    public void TryToSpawn(GameObject hittedObject, GameObject prefab)
+    private CubeScatter _cubeScatter;
+
+    private void Awake()
+    {
+        _cubeScatter = GetComponent<CubeScatter>();
+    }
+
+    public void TryToSpawn(GameObject hittedObject)
     {
         float divisionChanche = hittedObject.GetComponent<Cube>().DivisionChanche;
 
@@ -22,16 +28,18 @@ public class CubeSpawner : MonoBehaviour
 
             for (int i = 0; i < cubeCount; i++)
             {
-                GameObject cube = Instantiate(prefab);
+                GameObject cube = Instantiate(hittedObject);
 
-                cube.transform.localScale = hittedObject.transform.localScale / 2;
+                cube.transform.localScale = hittedObject.transform.localScale / _divisionPower;
                 cube.transform.localPosition = hittedObject.transform.localPosition;
-                cube.GetComponent<Cube>().SetDivisionChanche(divisionChanche / 2);
+                cube.GetComponent<Cube>().SetDivisionChanche(divisionChanche / _divisionPower);
 
                 cubes[i] = cube;
             }
-            _exploding.ScatterAround(cubes, hittedObject);
+
+            _cubeScatter.ScatterAround(cubes, hittedObject);
         }
+
         Destroy(hittedObject);
     }
 }

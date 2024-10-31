@@ -1,18 +1,17 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private float _explodingForce;
-
     public float DivisionChanche { get; private set; } = 1f;
 
-    private void Start()
+    private void Awake()
     {
-        Renderer _renderer = GetComponent<Renderer>();
-        _renderer.material.color = GetRandomColor();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.material.color = GetRandomColor();
     }
 
     private Color GetRandomColor()
