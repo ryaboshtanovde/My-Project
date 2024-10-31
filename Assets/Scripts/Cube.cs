@@ -6,6 +6,7 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _explodingForce;
+
     public float DivisionChanche { get; private set; } = 1f;
 
     private void Start()
