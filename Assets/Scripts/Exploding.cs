@@ -3,6 +3,7 @@ using UnityEngine;
 public class Exploding : MonoBehaviour
 {
     [SerializeField] private float explodingForce = 10;
+
     public void ScatterAround(GameObject[] objects, GameObject epicenter)
     {
         foreach (GameObject scatteringObject in objects)
