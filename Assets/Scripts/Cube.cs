@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
-
 public class Cube : MonoBehaviour
 {
     public float DivisionChanche { get; private set; } = 1f;
@@ -22,5 +21,10 @@ public class Cube : MonoBehaviour
     public void SetDivisionChanche(float chanche)
     {
         DivisionChanche = chanche;
+    }
+
+    public void ChangeScale(Vector3 ChangeScale)
+    {
+        transform.localScale = ChangeScale;
     }
 }

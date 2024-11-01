@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CubeScatter))]
-
 public class CubeSpawner : MonoBehaviour
 {
     private int _minCubesCount = 2;
@@ -17,22 +16,21 @@ public class CubeSpawner : MonoBehaviour
         _cubeScatter = GetComponent<CubeScatter>();
     }
 
-    public void TryToSpawn(GameObject hittedObject)
+    public void TryToSpawn(Cube hittedObject)
     {
         float divisionChanche = hittedObject.GetComponent<Cube>().DivisionChanche;
 
         if (Random.Range(_minChanceBoarder, _maxChanceBoarder) <= divisionChanche)
         {
             int cubeCount = Random.Range(_minCubesCount, _maxCubesCount + 1);
-            GameObject[] cubes = new GameObject[cubeCount];
+            Cube[] cubes = new Cube[cubeCount];
 
             for (int i = 0; i < cubeCount; i++)
             {
-                GameObject cube = Instantiate(hittedObject);
+                Cube cube = Instantiate(hittedObject);
 
-                cube.transform.localScale = hittedObject.transform.localScale / _divisionPower;
-                cube.transform.localPosition = hittedObject.transform.localPosition;
-                cube.GetComponent<Cube>().SetDivisionChanche(divisionChanche / _divisionPower);
+                cube.ChangeScale(hittedObject.transform.localScale / _divisionPower);
+                cube.SetDivisionChanche(divisionChanche / _divisionPower);
 
                 cubes[i] = cube;
             }
@@ -40,6 +38,6 @@ public class CubeSpawner : MonoBehaviour
             _cubeScatter.ScatterAround(cubes, hittedObject);
         }
 
-        Destroy(hittedObject);
+        Destroy(hittedObject.gameObject);
     }
 }

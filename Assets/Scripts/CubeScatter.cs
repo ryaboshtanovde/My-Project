@@ -4,17 +4,20 @@ public class CubeScatter: MonoBehaviour
 {
     [SerializeField] private float _explodingForce = 10;
 
-    public void ScatterAround(GameObject[] objects, GameObject epicenter)
+    public void ScatterAround(Cube[] objects, Cube epicenter)
     {
-        foreach (GameObject scatteringObject in objects)
+        foreach (Cube scatteringObject in objects)
         {
-            if (scatteringObject.transform.localPosition == epicenter.transform.localPosition)
+            if (scatteringObject.TryGetComponent(out Rigidbody rigidbody))
             {
-                scatteringObject.GetComponent<Rigidbody>().AddForce(GetRandomDirectionVector() * _explodingForce);
-            }
-            else
-            {
-                scatteringObject.GetComponent<Rigidbody>().AddForce(Vector3.Cross(epicenter.transform.localPosition, scatteringObject.transform.localPosition).normalized * _explodingForce);
+                if (scatteringObject.transform.localPosition == epicenter.transform.localPosition)
+                {
+                    rigidbody.AddForce(GetRandomDirectionVector() * _explodingForce);
+                }
+                else
+                {
+                    rigidbody.AddForce(Vector3.Cross(epicenter.transform.localPosition, scatteringObject.transform.localPosition).normalized * _explodingForce);
+                }
             }
         }
     }
