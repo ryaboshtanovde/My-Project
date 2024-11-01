@@ -1,29 +1,30 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CubeScatter))]
+[RequireComponent(typeof(CubeExploder))]
 public class CubeSpawner : MonoBehaviour
 {
     private int _minCubesCount = 2;
     private int _maxCubesCount = 6;
     private float _minChanceBoarder = 0f;
     private float _maxChanceBoarder = 1f;
+    private float _minPositionShift = 0.01f;
+    private float _maxPositionShift = 0.5f;
     private float _divisionPower = 2;
 
-    private CubeScatter _cubeScatter;
+    private CubeExploder _cubeExploder;
 
     private void Awake()
     {
-        _cubeScatter = GetComponent<CubeScatter>();
+        _cubeExploder = GetComponent<CubeExploder>();
     }
 
     public void TryToSpawn(Cube hittedObject)
     {
-        float divisionChanche = hittedObject.GetComponent<Cube>().DivisionChanche;
+        float divisionChanche = hittedObject.GetComponent<Cube>().divisionChanche;
 
         if (Random.Range(_minChanceBoarder, _maxChanceBoarder) <= divisionChanche)
         {
             int cubeCount = Random.Range(_minCubesCount, _maxCubesCount + 1);
-            Cube[] cubes = new Cube[cubeCount];
 
             for (int i = 0; i < cubeCount; i++)
             {
@@ -31,13 +32,16 @@ public class CubeSpawner : MonoBehaviour
 
                 cube.ChangeScale(hittedObject.transform.localScale / _divisionPower);
                 cube.SetDivisionChanche(divisionChanche / _divisionPower);
-
-                cubes[i] = cube;
+                AddRandomPositionShift(cube.transform);
             }
-
-            _cubeScatter.ScatterAround(cubes, hittedObject);
         }
+        _cubeExploder.Explode(hittedObject);
+    }
 
-        Destroy(hittedObject.gameObject);
+    private void AddRandomPositionShift(Transform transform)
+    {
+        Vector3 newPosition = transform.position + new Vector3(Random.Range(_minPositionShift, _maxPositionShift), 0, Random.Range(_minPositionShift, _maxPositionShift));
+
+        transform.position = newPosition;
     }
 }

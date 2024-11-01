@@ -5,10 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class Cube : MonoBehaviour
 {
-    public float DivisionChanche { get; private set; } = 1f;
+    public float divisionChanche { get; private set; } = 1f;
+    public Rigidbody rigidBody { get; private set; }
 
     private void Awake()
     {
+        rigidBody = GetComponent<Rigidbody>();
+        transform.localScale = Vector3.one;
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material.color = GetRandomColor();
     }
@@ -20,11 +23,16 @@ public class Cube : MonoBehaviour
 
     public void SetDivisionChanche(float chanche)
     {
-        DivisionChanche = chanche;
+        divisionChanche = chanche;
     }
 
     public void ChangeScale(Vector3 ChangeScale)
     {
         transform.localScale = ChangeScale;
+    }
+
+    public float GetExplosionModifier()
+    {
+        return 1 / transform.localScale.x;
     }
 }
