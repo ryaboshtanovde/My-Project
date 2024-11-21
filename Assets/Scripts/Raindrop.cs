@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof(Renderer))]
 public class Raindrop : MonoBehaviour
 {
-    public RaindropSpawner _spawner;
+    public RaindropSpawner Spawner;
     private Renderer _renderer;
     private float _disableDelayMin = 2f;
     private float _disableDelayMax = 5f;
@@ -25,9 +25,12 @@ public class Raindrop : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        _renderer.material.color = Color.cyan;
-        _disableDelay = Random.Range(_disableDelayMin, _disableDelayMax);
-        StartCoroutine(DestroyWithDelay(_disableDelay));
+        if (collision.transform.tag == "Ground")
+        {
+            _renderer.material.color = Color.cyan;
+            _disableDelay = Random.Range(_disableDelayMin, _disableDelayMax);
+            StartCoroutine(DestroyWithDelay(_disableDelay));
+        }
     }
 
     private IEnumerator DestroyWithDelay(float disableDelay)
@@ -35,6 +38,6 @@ public class Raindrop : MonoBehaviour
         WaitForSeconds waitForSeconds = new WaitForSeconds(disableDelay);
 
         yield return waitForSeconds;
-        _spawner.ReleaseOnPool(gameObject);
+        Spawner.ReleaseOnPool(gameObject);
     }
 }

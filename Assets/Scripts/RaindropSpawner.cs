@@ -5,9 +5,9 @@ using UnityEngine.Pool;
 [RequireComponent (typeof(Renderer))]
 public class RaindropSpawner : MonoBehaviour
 {
-    public float timeBetweenSpawn = 1f;
-    public int spawnCount = 1;
-    public GameObject _prefab;
+    public float TimeBetweenSpawn = 1f;
+    public int SpawnCount = 1;
+    public GameObject Prefab;
     private Bounds _bounds;
     private ObjectPool<GameObject> _pool;
     private int _poolCapacity = 5;
@@ -34,7 +34,7 @@ public class RaindropSpawner : MonoBehaviour
 
     private IEnumerator RaindropSpawn()
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(timeBetweenSpawn);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(TimeBetweenSpawn);
 
         while (enabled)
         {
@@ -53,9 +53,9 @@ public class RaindropSpawner : MonoBehaviour
 
     private GameObject CreatePooledObject()
     {
-        GameObject newObject = Instantiate(_prefab);
+        GameObject newObject = Instantiate(Prefab);
         newObject.AddComponent<Raindrop>();
-        newObject.GetComponent<Raindrop>()._spawner = this;
+        newObject.GetComponent<Raindrop>().Spawner = this;
         return newObject;
     }
     
