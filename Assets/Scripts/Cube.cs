@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 [RequireComponent (typeof(MeshFilter))]
 [RequireComponent (typeof(MeshRenderer))]
@@ -7,21 +8,23 @@ using UnityEngine;
 [RequireComponent (typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
+    bool _isGrounded = false;
     public event Action<Cube> TouchGround;
-    bool isGrounded = false;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isGrounded == false)
+        if (_isGrounded == false)
             if (collision.transform.TryGetComponent(out Ground ground))
             {
                 TouchGround?.Invoke(this);
-                isGrounded = true;
+                _isGrounded = true;
             }
     }
 
     private void OnEnable()
     {
-        isGrounded = false;
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _isGrounded = false;
     }
 }

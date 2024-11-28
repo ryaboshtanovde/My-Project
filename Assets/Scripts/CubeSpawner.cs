@@ -2,11 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
-
+[RequireComponent (typeof(Renderer))]
 public class CubeSpawner : MonoBehaviour
 {
     public float TimeBetweenSpawn = 1f;
-    public Cube Prefab;
+    [SerializeField] private Cube _prefab;
     private Bounds _bounds;
 
     private ObjectPool<Cube> _pool;
@@ -27,7 +27,7 @@ public class CubeSpawner : MonoBehaviour
             createFunc: () => ActionOnCreate(),
             actionOnGet: (pooledObject) => ActionOnGet(pooledObject),
             actionOnRelease: (pooledObject) => ActionOnRelease(pooledObject),
-            actionOnDestroy: (pooledObject) => Destroy(pooledObject),
+            actionOnDestroy: (pooledObject) => Destroy(pooledObject.gameObject),
             collectionCheck: true,
             defaultCapacity: _poolCapacity,
             maxSize: _poolMaxSize
@@ -35,10 +35,10 @@ public class CubeSpawner : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(CubeSpawn());
+        StartCoroutine(SpawnCubes());
     }
 
-    private IEnumerator CubeSpawn()
+    private IEnumerator SpawnCubes()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(TimeBetweenSpawn);
 
@@ -61,14 +61,12 @@ public class CubeSpawner : MonoBehaviour
 
     private Cube ActionOnCreate()
     {
-        Cube newObject = Instantiate(Prefab);
-        return newObject;
+        return Instantiate(_prefab);
     }
 
     private void ActionOnGet(Cube pooledObject)
     {
         pooledObject.transform.position = GetRandomPosition(_bounds);
-        pooledObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         pooledObject.gameObject.SetActive(true);
     }
 
