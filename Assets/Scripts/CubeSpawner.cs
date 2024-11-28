@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 [RequireComponent (typeof(Renderer))]
 public class CubeSpawner : MonoBehaviour
 {
-    public float TimeBetweenSpawn = 1f;
+    [SerializeField] private float TimeBetweenSpawn = 1f;
     [SerializeField] private Cube _prefab;
     private Bounds _bounds;
 
@@ -15,9 +15,6 @@ public class CubeSpawner : MonoBehaviour
 
     private float _releaseDelayMin = 2f;
     private float _releaseDelayMax = 5f;
-
-    private Color _spawnedColor = Color.white;
-    private Color _groundedColor = Color.cyan;
 
     private void Awake()
     {
@@ -46,7 +43,6 @@ public class CubeSpawner : MonoBehaviour
         {
             Cube cube = _pool.Get();
             cube.TouchGround += ReleaseCube;
-            ChangeColor(cube, _spawnedColor);
             yield return waitForSeconds;
         }
     }
@@ -78,7 +74,6 @@ public class CubeSpawner : MonoBehaviour
 
     private void ReleaseCube(Cube cube)
     {
-        ChangeColor(cube, _groundedColor);
         StartCoroutine(DelayToRelease(cube));
     }
 
@@ -86,10 +81,5 @@ public class CubeSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(_releaseDelayMin, _releaseDelayMax));
         _pool.Release(cube);
-    }
-
-    private void ChangeColor(Cube cube, Color color)
-    {
-        cube.GetComponent<Renderer>().material.color = color;
     }
 }
