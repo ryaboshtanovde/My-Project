@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 [RequireComponent (typeof(Renderer))]
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private float TimeBetweenSpawn = 1f;
+    [SerializeField] private float _timeBetweenSpawn = 1f;
     [SerializeField] private Cube _prefab;
     private Bounds _bounds;
 
@@ -21,7 +21,7 @@ public class CubeSpawner : MonoBehaviour
         _bounds = GetComponent<Renderer>().bounds;
 
         _pool = new ObjectPool<Cube>(
-            createFunc: () => ActionOnCreate(),
+            createFunc: () => Instantiate(_prefab),
             actionOnGet: (pooledObject) => ActionOnGet(pooledObject),
             actionOnRelease: (pooledObject) => ActionOnRelease(pooledObject),
             actionOnDestroy: (pooledObject) => Destroy(pooledObject.gameObject),
@@ -37,7 +37,7 @@ public class CubeSpawner : MonoBehaviour
 
     private IEnumerator SpawnCubes()
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(TimeBetweenSpawn);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(_timeBetweenSpawn);
 
         while (enabled)
         {
@@ -53,11 +53,6 @@ public class CubeSpawner : MonoBehaviour
                 Random.Range(bounds.min.x, bounds.max.x),
                 Random.Range(bounds.min.y, bounds.max.y),
                 Random.Range(bounds.min.z, bounds.max.z));
-    }
-
-    private Cube ActionOnCreate()
-    {
-        return Instantiate(_prefab);
     }
 
     private void ActionOnGet(Cube pooledObject)

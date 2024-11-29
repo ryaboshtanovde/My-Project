@@ -8,10 +8,18 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     private bool _isGrounded = false;
-    public event Action<Cube> TouchGround;
-
+    private Renderer _renderer;
+    private Rigidbody _rigidbody;
     private Color _startedColor = Color.white;
     private Color _groundedColor = Color.cyan;
+
+    public event Action<Cube> TouchGround;
+
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,14 +28,14 @@ public class Cube : MonoBehaviour
             {
                 TouchGround?.Invoke(this);
                 _isGrounded = true;
-                GetComponent<Renderer>().material.color = _groundedColor;
+                _renderer.material.color = _groundedColor;
             }
     }
 
     private void OnEnable()
     {
-        GetComponent<Renderer>().material.color = _startedColor;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _renderer.material.color = _startedColor;
+        _rigidbody.velocity = Vector3.zero;
         _isGrounded = false;
     }
 }

@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92858843841878d4db5c08fdd7d3f59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeBetweenSpawn: 0.86
-  Prefab: {fileID: 1005548647643381724, guid: 0524caf9a2601bf458487ec32d12c76e, type: 3}
+  TimeBetweenSpawn: 1
+  _prefab: {fileID: 1005548647643381724, guid: 0524caf9a2601bf458487ec32d12c76e, type: 3}
 --- !u!65 &671724896
 BoxCollider:
   m_ObjectHideFlags: 0
