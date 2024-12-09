@@ -11,10 +11,10 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine(SpawnEnemies());
     }
 
-    private IEnumerator SpawnEnemy() 
+    private IEnumerator SpawnEnemies() 
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(_spawnTimer);
 

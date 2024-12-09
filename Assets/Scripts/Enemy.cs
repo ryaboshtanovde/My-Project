@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
 {
     private Vector3 _moveDirection = Vector3.zero;
 
-    void FixedUpdate()
+    private void Update()
     {
         transform.position += _moveDirection * Time.deltaTime;
     }
